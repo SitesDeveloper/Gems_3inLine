@@ -6,26 +6,29 @@ using UnityEngine.UI;
 using TMPro;
 
 
-public class DialogSelectUser : MonoBehaviour
+public class DialogSelectUserProfile : MonoBehaviour
 {
 
     //для скрытия при продолжении
     public GameObject pnlSelectUser;
     public TMP_InputField inpUserName;
-    //public InputField inpUserName;
-    ///public GameObject UsersSrollContent;
     public ColorBlock btn_defaultColorBlock = ColorBlock.defaultColorBlock;
-    public GameObject pnl_menu;
 
     List<OneUserSaveData> arUsers;
     AllUsersSaveData allUsers;
 
+    //прогресс загрузки
+    public GameObject progress_block;
+
+
+    //********************************************************
     private void Start()
     {
         Reload_AllUsersData();
         SetInputName("");
     }
 
+    //********************************************************
     private void Update()
     {
 
@@ -43,16 +46,19 @@ public class DialogSelectUser : MonoBehaviour
     }
 
 
+    //********************************************************
     public void SetInputName(string new_user_name) {
         inpUserName.text = new_user_name;
         allUsers.curUserName = new_user_name;
     }
 
+    //********************************************************
     public string GetInputName() {
         return inpUserName.text;
     }
 
 
+    //********************************************************
     public void Reload_AllUsersData()
     {
         allUsers = myUtils.getAllUsersSaveData();
@@ -68,7 +74,6 @@ public class DialogSelectUser : MonoBehaviour
 
         GameObject itemsArea = GameObject.FindGameObjectWithTag("users_list");
 
-
         if (itemsArea.GetComponentsInChildren<Button>().Length > 0)
         {
             Button[] btns = itemsArea.GetComponentsInChildren<Button>();
@@ -80,25 +85,6 @@ public class DialogSelectUser : MonoBehaviour
                 Destroy(b.gameObject);
             }
         }
-
-        /*
-        //Button btn = new Button()
-        GameObject newButton = new GameObject("New button", typeof(Image), typeof(Button), typeof(LayoutElement));
-        newButton.transform.SetParent(itemsArea.transform);
-        newButton.GetComponent<LayoutElement>().minHeight = 35;
-        GameObject newText = new GameObject("New text", typeof(Text));
-        newText.transform.SetParent(newButton.transform);
-        newText.GetComponent<Text>().text = "New button";
-        //newText.GetComponent<Text>().font = font;
-        RectTransform rt = newText.GetComponent<RectTransform>();
-        rt.anchorMin = new Vector2(0, 0);
-        rt.anchorMax = new Vector2(1, 1);
-        rt.anchoredPosition = new Vector2(0, 0);
-        rt.sizeDelta = new Vector2(0, 0);
-        newText.GetComponent<Text>().color = new Color(0, 0, 0);
-        newText.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
-        //newButton.GetComponent<Button>().onClick.AddListener(delegate { press(); });
-        */
 
         foreach (OneUserSaveData user in arUsers)
         {
@@ -115,12 +101,14 @@ public class DialogSelectUser : MonoBehaviour
     }
 
 
+    //********************************************************
     public void Save_AllUsersData(bool flag = false) {
         allUsers.arUsers = arUsers.ToArray();
         myUtils.saveAllUsersSaveData(allUsers);
     }
 
 
+    //********************************************************
     public void Select_User_inList(string btn_name)
     {
         Debug.Log("клик по кнопке "+ btn_name);
@@ -150,9 +138,10 @@ public class DialogSelectUser : MonoBehaviour
     
 
     //********************************************************
-    public void AddOneUser(OneUserSaveData user)
-    {
-    }
+    //public void AddOneUser(OneUserSaveData user)
+    //{
+    //}
+
     //********************************************************
     //клик по кнопке удалить юзера
     public void User_Delete()
@@ -241,11 +230,10 @@ public class DialogSelectUser : MonoBehaviour
     }
 
     //********************************************************
-    //дальнейшие действия юзера
+    // дальнейшие действия юзера
     public void User_Continue()
     {
         //проверка, есть ли выбранных юзер
-        //UsersSrollContent.GetComponentsInChildren<Button>();
         GameObject itemsArea = GameObject.FindGameObjectWithTag("users_list");
         Button[] btns = itemsArea.GetComponentsInChildren<Button>();
         int i = -1;
@@ -259,10 +247,10 @@ public class DialogSelectUser : MonoBehaviour
         if (i >= 0)
         {
             Save_AllUsersData();
-            pnlSelectUser.SetActive(false);  //скрытие окна выбора юзера
-            pnl_menu.SetActive(true);  //открытие панели меню
-            Text uname = pnl_menu.transform.Find("lbl_UserName").GetComponent<Text>();
-            uname.text = arUsers[i].name;
+            //pnlSelectUser.SetActive(false);  //скрытие окна выбора юзера
+            //Text uname = pnl_menu.transform.Find("lbl_UserName").GetComponent<Text>();
+            //uname.text = arUsers[i].name;
+            Start_New_Game();
         }
         else
         {
@@ -272,6 +260,15 @@ public class DialogSelectUser : MonoBehaviour
             }, "Создайте новый или выберите профиль из списка."); 
         }
     }
+
+    //********************************************************
+    public void Start_New_Game()
+    {
+        myUtils.console_log("start new game");
+        progress_block.GetComponent<SceneLoaderWithProgressBar>().Load_Scene("main_scene");
+    }
+
+
 
 
 }

@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
-public class gameSceneLoader : MonoBehaviour
+public class SceneLoaderWithProgressBar : MonoBehaviour
 {
 
     //public GameObject LoadingScene;
     //public Image LoadingBar;
-    public Text textPourcentage; //The text with the percentage increasing
+    public TMP_Text textPourcentage; //The text with the percentage increasing
     public Slider LoadingBar;
 
     private string nameScene;
@@ -20,9 +22,6 @@ public class gameSceneLoader : MonoBehaviour
         nameScene = name;
         estActive = true;
         textPourcentage.transform.parent.gameObject.SetActive(true);
-
-        //textPourcentage.GetComponentInParent<GameObject>().SetActive(true);
-        //LoadingBar.gameObject.SetActive(true);
     }
 
     void Update()
@@ -37,7 +36,7 @@ public class gameSceneLoader : MonoBehaviour
 
     IEnumerator Pause()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
     }
 
     IEnumerator LevelCoroutine(string namScene)
@@ -59,30 +58,7 @@ public class gameSceneLoader : MonoBehaviour
             pourcentage = val * 100;
             textPourcentage.text = (int)pourcentage + "%";
 
-            /*
-            if (async.progress < 0.9f)
-            {
-                //LoadingBar.fillAmount = async.progress / 0.9f;
-                LoadingBar.value = async.progress / 0.9f;
-                pourcentage = async.progress * 100;
-                textPourcentage.text = (int)pourcentage + "%";
-                //yield return new WaitForSeconds(0.2f);
-            }
-            else
-            {
-                LoadingBar.value = async.progress / 0.9f;
-                pourcentage = (async.progress / 0.9f) * 100;
-                textPourcentage.text = (int)pourcentage + "%";
-                //yield return new WaitForSeconds(0.30f);
-                async.allowSceneActivation = true;
-                textPourcentage.transform.parent.gameObject.SetActive(false);
-                //textPourcentage.GetComponentInParent<GameObject>().SetActive(false);
-                //textPourcentage.gameObject.SetActive(false);
-                //LoadingBar.gameObject.SetActive(false);
-                Debug.Log("scene active");
-
-            }
-            */
+            //Thread.Sleep(500);
             yield return null;
 
         }
