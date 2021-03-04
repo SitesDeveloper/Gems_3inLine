@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class DialogSelectUser : MonoBehaviour
 {
 
     //для скрытия при продолжении
-    public GameObject pnlSelectUser; 
-    public InputField inpUserName;
+    public GameObject pnlSelectUser;
+    public TMP_InputField inpUserName;
+    //public InputField inpUserName;
     ///public GameObject UsersSrollContent;
     public ColorBlock btn_defaultColorBlock = ColorBlock.defaultColorBlock;
     public GameObject pnl_menu;
@@ -105,7 +107,7 @@ public class DialogSelectUser : MonoBehaviour
             btn.transform.SetParent(itemsArea.transform);
             string name = user.name; // "Вася" + i.ToString();
             btn.name = name;
-            btn.GetComponentInChildren<Text>().text = name;
+            btn.GetComponentInChildren<TMP_Text>().text = name;
             btn.GetComponent<Button>().onClick.AddListener(delegate { Select_User_inList(name); });
         }
 

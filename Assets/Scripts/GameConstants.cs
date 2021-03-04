@@ -75,7 +75,7 @@ public class GameConstants : MonoBehaviour
     public const string sANIM_AREA_OVERFILL = "Animations/area_overfill";
 
 
-    public const string PREFAB_BTN_USER_NAME = "Prefab/btn_UserName";
+    public const string PREFAB_BTN_USER_NAME = "Prefab/Profile/btn_UserName_tmp";
     public const string PREFAB_PLASHKA = "Prefab/plashka";
     public const string PATH_TO_SQUARES_PREFABS = "Prefab/bricks/";
     public const string PREFAB_SACRED_TEXT = "Prefab/SacredText";
