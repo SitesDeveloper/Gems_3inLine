@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class MessageBox : MonoBehaviour {
 
@@ -19,8 +20,9 @@ public class MessageBox : MonoBehaviour {
     {
         GameObject messageBox = Instantiate(instance.Template);
 
-        Transform panel = messageBox.transform.Find("mb_Window");
-        Text msgBoxText = panel.Find("mb_Text").GetComponent<Text>();
+        Transform wrapper = messageBox.transform.Find("pnl_win_wrapper");
+        Transform panel = wrapper.transform.Find("mb_Window");
+        TMP_Text msgBoxText = panel.Find("mb_Text_tmp").GetComponent<TMP_Text>();
         msgBoxText.text = title;
         Transform btn_panel = panel.transform.Find("btn_panel");
         Button yes = btn_panel.Find("mb_btn_yes").GetComponent<Button>();
