@@ -21,6 +21,8 @@ public class DialogSelectUserProfile : MonoBehaviour
     public GameObject progress_block;
 
 
+    
+
     //********************************************************
     private void Start()
     {
@@ -114,14 +116,13 @@ public class DialogSelectUserProfile : MonoBehaviour
         Debug.Log("клик по кнопке "+ btn_name);
         //UsersSrollContent.GetComponentsInChildren<Button>();
         GameObject itemsArea = GameObject.FindGameObjectWithTag("users_list");
-        Button[] btns = itemsArea.GetComponentsInChildren<Button>(); 
+        Button[] btns = itemsArea.GetComponentsInChildren<Button>();
         for (int j=0; j<btns.Length; j++)
         {
+            ColorBlock cb = btns[j].colors;
             if (btns[j].name.Equals(btn_name) )
             {
-                ColorBlock cb = btns[j].colors;
-                cb.normalColor = new Color(0.4f, 0.8f, 0.9f, 1f);
-                cb.highlightedColor = new Color(0.6f, 0.8f, 0.9f, 1f);
+                cb.normalColor = new Color( 1f, 1f, 1f, 1f);
                 btns[j].colors = cb;
                 btns[j].tag = "btn_selected";
                 SetInputName(arUsers[j].name);
@@ -129,7 +130,9 @@ public class DialogSelectUserProfile : MonoBehaviour
             }
             else
             {
-                btns[j].colors = btn_defaultColorBlock;
+                cb.normalColor = new Color( 0.8f, 0.8f, 0.8f, 0.5f);
+                btns[j].colors = cb;
+                //btns[j].colors = btn_defaultColorBlock;
                 btns[j].tag = "btn_not_selected";
             }
         }
