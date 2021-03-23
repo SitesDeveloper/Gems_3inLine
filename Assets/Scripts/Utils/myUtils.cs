@@ -21,6 +21,8 @@ public class myUtils : MonoBehaviour
     }
 
 
+
+
     //=======================================================================
     //получить рандомное число от енума, начиная с min-ключа по порядку
     public static T GetRandomEnum<T>(int min=0)

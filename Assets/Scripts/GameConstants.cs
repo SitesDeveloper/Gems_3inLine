@@ -59,6 +59,9 @@ public class GameConstants : MonoBehaviour
     public const int DIR_LEFT = 1;
     public const int DIR_RIGHT = 2;
 
+    public const int SKILLS_NODE_IS_CATEGORY = 1;
+
+
     //range интервалов когда возможна следующая анимация типа IDLE, для квадрата области сборки
     public static RangeAttribute ANIM_IDLE_RANGE = new RangeAttribute(3f, 10f);
 
@@ -68,6 +71,9 @@ public class GameConstants : MonoBehaviour
     public const float SACRED_TEXT_TIME_INTERVAL = 60f * 5f;
 
     public static string PATH_TO_USERS_SAVEDATA = "Save.json";
+
+    public static string PATH_TO_SKILLS_TREE = "SkillsTree.json";
+
 
     public const string sANIM_BASE = "Animations/base_stones_cntr";
     public const string sANIM_FILL_LINE = "Animations/line_fill_cntr";
@@ -82,6 +88,12 @@ public class GameConstants : MonoBehaviour
     public const string PREFAB_GAME_MSG_BOX = "Prefab/MessageBoxGame";
 
 
+    public const string PREFAB_EDITOR_CATEGORY = "Prefab/SkillsTreeEditor/category";
+    public const string PREFAB_EDITOR_SUBCATEGORY = "Prefab/SkillsTreeEditor/subcategory";
+    public const string PREFAB_EDITOR_ELEMENT = "Prefab/SkillsTreeEditor/element";
+
+
+    private static Sprite[] allSprites;
 
     //инициализация
     public static void Init() {
@@ -138,6 +150,25 @@ public class GameConstants : MonoBehaviour
         Vector3 bkFonBounds = bkFon.GetComponent<SpriteRenderer>().sprite.bounds.size;
         //myUtils.console_log("bkFonBounds", bkFonBounds);
 
+    }
+
+
+
+    //**************************************************************
+    public static Sprite GetSprite(string sprite_name)
+    {
+        if (allSprites == null)
+        {
+            allSprites = Resources.LoadAll<Sprite>("Sprites");  // / SkillsTreeEditor /
+        }
+        foreach (Sprite spr in allSprites)
+        {
+            if (spr.name == sprite_name)
+            {
+                return spr;
+            }
+        }
+        return null;  //or may be Excepcion
     }
 
 
