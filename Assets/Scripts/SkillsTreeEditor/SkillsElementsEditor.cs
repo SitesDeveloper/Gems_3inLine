@@ -30,7 +30,8 @@ public class SkillsElementsEditor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        skillsCategories = GetComponent<SkillsCategoriesEditor>();
+        if (skillsCategories == null)
+            skillsCategories = GetComponent<SkillsCategoriesEditor>();
         ClearGraph();
     }
 
@@ -44,6 +45,8 @@ public class SkillsElementsEditor : MonoBehaviour
     //установить данные нодов элементов
     public void SetData(List<JsonSkillsTreeNode> nodes)
     {
+        if (skillsCategories == null)
+            skillsCategories = GetComponent<SkillsCategoriesEditor>();
         elmsList.Clear();
         elmsList.AddRange(nodes);
     }
@@ -124,13 +127,7 @@ public class SkillsElementsEditor : MonoBehaviour
     //получить ID из строки имени вида element_ID
     public int ExtractIDfromName(string name)
     {
-        string[] words = name.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
-        int id = 0; ;
-        if ((words.Length == 2) && Int32.TryParse(words[1], out id))
-        {
-            return id;
-        }
-        return 0;
+        return myUtils.SplitStringAndGetFromIndx(name, new char[] { '_' }, 1);
     }
 
 

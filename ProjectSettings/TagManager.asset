@@ -10,6 +10,7 @@ TagManager:
   - game_area_graph
   - background_fon
   - btn_selected
+  - editor_popups_fon
   layers:
   - Default
   - TransparentFX

@@ -23,7 +23,7 @@ public class SkillsTreeEditorController : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Start() 
     {
         scCategories =  GetComponent<SkillsCategoriesEditor>();
         scElements = GetComponent<SkillsElementsEditor>();
@@ -50,6 +50,13 @@ public class SkillsTreeEditorController : MonoBehaviour
         //обновление графа категорий + элементов текущей категории
         scCategories.FillGrap();
     }
+
+
+
+
+
+
+
 
 
 

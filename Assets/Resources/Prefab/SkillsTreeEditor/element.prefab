@@ -213,7 +213,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0421\u0443\u0431\u043A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F"
+  m_text: "\u044D\u043B\u0435\u043C\u0435\u043D\u0442"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ca1a79ea49044364cbb9cca4883da1cc, type: 2}
   m_sharedMaterial: {fileID: 120975075390992656, guid: ca1a79ea49044364cbb9cca4883da1cc,
@@ -444,7 +444,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7607501763904833822}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

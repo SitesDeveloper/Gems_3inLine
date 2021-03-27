@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,55 @@ public class myUtils : MonoBehaviour
             res = res + item.ToString() + " ";
         }
         Debug.Log(res);
+    }
+
+
+    //***********************************************************************
+    //разбить строку (stroka) данными символами(ch) и вернуть id с заданным номером (indx, начиная с 0)
+    //примеры:  category_<id>,  <id>: name
+    public static int SplitStringAndGetFromIndx(string stroka, char[] ch = null, int indx=0)
+    {
+        if (ch == null)
+            ch = new char[] { '_' }; 
+
+        string[] words = stroka.Split(ch, StringSplitOptions.RemoveEmptyEntries);
+        int id = 0; ;
+        if ((words.Length >= indx) && Int32.TryParse(words[indx], out id))
+        {
+            return id;
+        }
+        return 0;
+    }
+
+
+    //=======================================================================
+    //поиск всех неактивных объектов
+    public static List<GameObject> FindInactiveGameObjects()
+    {
+        //Get all of them in the scene
+        GameObject[] all = GameObject.FindObjectsOfType<GameObject>();
+        //Create a list 
+        List<GameObject> objs = new List<GameObject>();
+        foreach (GameObject obj in all) 
+        {
+            objs.Add(obj);
+        }
+        //Create the Finder
+        Predicate<GameObject> inactiveFinder = new Predicate<GameObject>((GameObject go) => { return !go.activeInHierarchy; });
+        //And find inactive ones
+        List<GameObject> results = objs.FindAll(inactiveFinder);
+        return results;
+    }
+
+    public static GameObject FindObjByTag(string tag)
+    {
+        List<GameObject> all = FindInactiveGameObjects();
+        foreach (GameObject obj in all) //Create a list 
+        {
+            if (obj.tag == tag)
+                return obj;
+        }
+        return null;
     }
 
 

@@ -86,6 +86,7 @@ public class GameConstants : MonoBehaviour
     public const string PATH_TO_SQUARES_PREFABS = "Prefab/bricks/";
     public const string PREFAB_SACRED_TEXT = "Prefab/SacredText";
     public const string PREFAB_GAME_MSG_BOX = "Prefab/MessageBoxGame";
+    public const string PREFAB_SIMPLE_MESSAGE_BOX = "Prefab/PopupWindows/MessageBox";
 
 
     public const string PREFAB_EDITOR_CATEGORY = "Prefab/SkillsTreeEditor/category";
