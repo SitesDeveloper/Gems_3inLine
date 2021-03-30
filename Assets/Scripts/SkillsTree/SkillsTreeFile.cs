@@ -11,6 +11,7 @@ public static class SkillsTreeFile
     public static List<JsonSkillsTreeNode> elmsList = new List<JsonSkillsTreeNode>();
 
     public static bool is_changed = false;
+    public static int sort_step = 10;
 
     //****************************************************************
     //загрузка из файла и заполнение списков
@@ -103,6 +104,17 @@ public static class SkillsTreeFile
             return 0;
         });
 
+        //сортировка корневых разделов
+        rootCats.Sort(delegate(JsonSkillsTreeNode a, JsonSkillsTreeNode b) {
+            if (a.sort > b.sort)
+                return 1;
+            if (a.sort < b.sort)
+                return -1;
+            return 0;
+        });
+
+
+
         foreach (JsonSkillsTreeNode rootItem in rootCats)
         {
             newCatList.Add(rootItem);
@@ -138,6 +150,7 @@ public static class SkillsTreeFile
             return 0;
         });
     }
+
 
 
 
@@ -215,6 +228,51 @@ public static class SkillsTreeFile
         return new_id;
     }
 
+
+    //****************************************************************
+    // удаление одной категории, возвращает кол-во удаленных категорий
+    public static int deleteCategoryAndSubnodes(int id)
+    {
+        int deleted_nodes = 0;
+
+        //получить категорию и все е дочерние категории
+        List<JsonSkillsTreeNode> catNodes = catList.FindAll(x => (x.parent_id == id) || (x.id == id));
+        if (catNodes.Count > 0)
+        {
+            foreach (JsonSkillsTreeNode catNode in catNodes)
+            {
+                //удалить элементы каждой категории
+                //List<JsonSkillsTreeNode> elmsNodes = elmsList.FindAll(x => x.parent_id == catNode.id);
+                deleted_nodes += elmsList.RemoveAll(x => x.parent_id == catNode.id);
+            }
+            deleted_nodes += catList.RemoveAll(x => (x.parent_id == id) || (x.id == id));
+        }
+        else
+        {
+            throw new Exception("Категория с данным id=" + id + " не найдена");
+        }
+        return deleted_nodes;
+    }
+
+    //****************************************************************
+    //ренумерация всех категорий с шагом 10
+    public static void renumAllCats()
+    {
+        if (catList.Count>0)
+        {
+            int sort = sort_step;
+            for (int i=0; i<catList.Count; i++)
+            {
+                catList[i].sort = sort;
+                sort += sort_step;
+            }
+        }
+    }
+
+
+
+
+
     //****************************************************************
     //добавление/правка одного элемента
     public static int addEditElement(JsonSkillsTreeNode newNode)
@@ -244,30 +302,7 @@ public static class SkillsTreeFile
     }
 
 
-    //****************************************************************
-    // удаление одной категории, возвращает кол-во удаленных категорий
-    public static int deleteCategoryAndSubnodes(int id)
-    {
-        int deleted_nodes = 0;
 
-        //получить категорию и все е дочерние категории
-        List<JsonSkillsTreeNode> catNodes = catList.FindAll(x => (x.parent_id == id) || (x.id==id) );
-        if (catNodes.Count > 0)
-        {
-            foreach (JsonSkillsTreeNode catNode in catNodes)
-            {
-                //удалить элементы каждой категории
-                //List<JsonSkillsTreeNode> elmsNodes = elmsList.FindAll(x => x.parent_id == catNode.id);
-                deleted_nodes += elmsList.RemoveAll(x => x.parent_id == catNode.id);
-            }
-            deleted_nodes +=  catList.RemoveAll(x => (x.parent_id == id) || (x.id == id));
-        }
-        else
-        {
-            throw new Exception("Категория с данным id=" + id + " не найдена");
-        }
-        return deleted_nodes;
-    }
 
 
 

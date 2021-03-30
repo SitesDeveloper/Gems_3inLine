@@ -105,8 +105,8 @@ public class SkillsCategoriesEditor : MonoBehaviour
                 obCat.transform.SetParent(goCategories.transform);
                 string name = CreateNameByID(node.id);
                 obCat.name = name;
-                obCat.transform.Find("tmp_name").GetComponent<TMP_Text>().text = node.name;
-                obCat.transform.Find("tmp_id").GetComponent<TMP_Text>().text = node.id.ToString();
+                obCat.transform.Find("tmp_name").GetComponent<TMP_Text>().text = "["+node.id+"] " + node.name;
+                obCat.transform.Find("tmp_id").GetComponent<TMP_Text>().text = node.sort.ToString();
                 GameObject img = obCat.transform.Find("pnl_img").Find("Image").gameObject;
                     img.GetComponent<Image>().sprite = GameConstants.GetSprite(spr_name);
                 Button btn = obCat.GetComponentInChildren<Button>();
@@ -260,9 +260,10 @@ public class SkillsCategoriesEditor : MonoBehaviour
     }
 
     //***********************************************************************
-    public void btn_Move_Category()
+    public void btn_RenumAllCats()
     {
-
+        SkillsTreeFile.renumAllCats();
+        refresh_all();
     }
 
 
