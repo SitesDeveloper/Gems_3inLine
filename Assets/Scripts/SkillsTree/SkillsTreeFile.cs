@@ -32,6 +32,24 @@ public static class SkillsTreeFile
 
 
     //****************************************************************
+    public static int getNextID()
+    {
+        int max_id = 1;
+        foreach( JsonSkillsTreeNode node in catList)
+        {
+            if (node.id > max_id) max_id = node.id;
+        }
+        foreach (JsonSkillsTreeNode node in elmsList)
+        {
+            if (node.id > max_id) max_id = node.id;
+        }
+        max_id++;
+        return max_id;
+    }
+
+
+
+    //****************************************************************
     //заполнение списков (категории и элементы) из массива  + их сортировка
     public static bool ArrayToLists( JsonSkillsTreeNode[] skillsArray )
     {
@@ -98,27 +116,7 @@ public static class SkillsTreeFile
         }
         catList.Clear();
         catList.AddRange(newCatList);
-
-
-        /*
-        catList.Sort(delegate (JsonSkillsTreeNode a, JsonSkillsTreeNode b)
-        {
-            //субкатегории идут вперед следующей корневой категории
-            if ( ( b.parent_id < a.id)  && (b.parent_id!=0) )
-                return -1;
-
-            if (a.parent_id > b.parent_id)
-                return 1;
-            if (a.parent_id < b.parent_id)
-                return -1;
-            //если родители равны, то по индексу сортировки
-            if (a.sort > b.sort)
-                return 1;
-            if (a.sort < b.sort)
-                return -1;
-            return 0;
-        });
-        */
+   
     }
 
 
@@ -187,6 +185,89 @@ public static class SkillsTreeFile
         }
     }
 
+
+
+    //****************************************************************
+    //добавление/правка одной категории
+    public static int addEditCategory(JsonSkillsTreeNode newNode)
+    {
+        int new_id = 0;
+        if (newNode.id > 0)
+        {
+            new_id = newNode.id;
+            int i = catList.IndexOf(catList.Find(n => n.id == newNode.id));
+            if (i >= 0)
+            {
+                catList[i] = newNode;
+            }
+            else
+            {
+                throw new Exception("Категория с данным id=" + newNode.id + " не найдена");
+            }
+        }
+        else
+        {
+            new_id = newNode.id = getNextID();
+            catList.Add(newNode);
+        }
+        SortCategories();
+        //Save(ListsToArray());
+        return new_id;
+    }
+
+    //****************************************************************
+    //добавление/правка одного элемента
+    public static int addEditElement(JsonSkillsTreeNode newNode)
+    {
+        int new_id = 0;
+        if (newNode.id > 0)
+        {
+            new_id = newNode.id;
+            int i = elmsList.IndexOf(elmsList.Find(n => n.id == newNode.id));
+            if (i > 0)
+            {
+                elmsList[i] = newNode;
+            }
+            else
+            {
+                throw new Exception("Елемент с данным id=" + newNode.id + " не найден");
+            }
+        }
+        else
+        {
+            new_id = newNode.id = getNextID();
+            elmsList.Add(newNode);
+        }
+        SortElements();
+        //Save(ListsToArray());
+        return new_id;
+    }
+
+
+    //****************************************************************
+    // удаление одной категории, возвращает кол-во удаленных категорий
+    public static int deleteCategoryAndSubnodes(int id)
+    {
+        int deleted_nodes = 0;
+
+        //получить категорию и все е дочерние категории
+        List<JsonSkillsTreeNode> catNodes = catList.FindAll(x => (x.parent_id == id) || (x.id==id) );
+        if (catNodes.Count > 0)
+        {
+            foreach (JsonSkillsTreeNode catNode in catNodes)
+            {
+                //удалить элементы каждой категории
+                //List<JsonSkillsTreeNode> elmsNodes = elmsList.FindAll(x => x.parent_id == catNode.id);
+                deleted_nodes += elmsList.RemoveAll(x => x.parent_id == catNode.id);
+            }
+            deleted_nodes +=  catList.RemoveAll(x => (x.parent_id == id) || (x.id == id));
+        }
+        else
+        {
+            throw new Exception("Категория с данным id=" + id + " не найдена");
+        }
+        return deleted_nodes;
+    }
 
 
 

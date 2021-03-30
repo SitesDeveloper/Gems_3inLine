@@ -51,13 +51,22 @@ public class SkillsCategoriesEditor : MonoBehaviour
     }
 
     //***********************************************************************
-    //установить данные нодов категорий
-    public void SetData( List<JsonSkillsTreeNode> nodes)
+    //обновление списка и графа
+    public void refresh_all()
+    {
+        reloadFromFile();
+        RefreshGrap();
+    }
+
+
+    //***********************************************************************
+    //перезагрузить данные нодов категорий из виртуального файла (который был загружен и внесены изменения)
+    public void reloadFromFile( )
     {
         if (scElements == null)
             scElements = GetComponent<SkillsElementsEditor>();
         catList.Clear();
-        catList.AddRange(nodes);
+        catList.AddRange( SkillsTreeFile.catList );
     }
 
 
@@ -77,7 +86,7 @@ public class SkillsCategoriesEditor : MonoBehaviour
 
     //***********************************************************************
     //заполнение списка категорий
-    public void FillGrap()
+    public void RefreshGrap()
     {
         ClearGraph();
         if (catList.Count>0)
@@ -225,19 +234,28 @@ public class SkillsCategoriesEditor : MonoBehaviour
         //поле: полное описание
         tmptxt = pnl_form.transform.Find("pnl_full_desc").GetComponentInChildren<TMP_InputField>();
         tmptxt.text = (is_new != 1) ? curNode.full_desc : "";
-
-
-        //gDp.onValueChanged.AddListener(delegate { ... });
-
     }
-
-
 
 
 
     //***********************************************************************
     public void btn_Delete_Category()
     {
+        MessageBox.ShowMessage(
+            () => {
+                int num = SkillsTreeFile.deleteCategoryAndSubnodes(curCatID);
+                //обновление списка и графа
+                refresh_all();
+                MessageBox.ShowMessage(
+                    () => {
+                    },
+                    "Нодов удалено: " + num
+                );
+            },
+            "Действительно хотите удалить выбранную категорию? " +
+            "В этом случае все ее ПОДКАТЕГОРИИ и их ЭЛЕМЕНТЫ будут удалены, " +
+            "также будут удалены элементы текущей категории."
+        );
 
     }
 
@@ -298,7 +316,7 @@ public class SkillsCategoriesEditor : MonoBehaviour
             Errors.Add("Описание (короткое или полное) должно быть не меньше 10 символов.");
         }
 
-        Errors.Add("Тестовая ошибка какая-то еще какой-то текст плюс еще какой-то текст и еще текст.");
+        //Errors.Add("Тестовая ошибка какая-то еще какой-то текст плюс еще какой-то текст и еще текст.");
 
         if (Errors.Count > 0)
         {
@@ -313,9 +331,17 @@ public class SkillsCategoriesEditor : MonoBehaviour
         {
             //все ок сохранение данных и закрытие формы
             pnl_popups_backfon.SetActive(false);
+
+
+            if (popup_is_new == 1)
+                formNode.id = 0;
+            else
+                formNode.id = curCatID;
+            curCatID = SkillsTreeFile.addEditCategory(formNode);
+            //обновление списка и графа
+            refresh_all();
         }
     }
-
 
 
 

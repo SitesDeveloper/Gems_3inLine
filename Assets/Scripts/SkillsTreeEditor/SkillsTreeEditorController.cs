@@ -44,13 +44,16 @@ public class SkillsTreeEditorController : MonoBehaviour
         //загрузка из файла
         SkillsTreeFile.Load();
         //заполнение списков в классах-графах категорий и элементов
-        scCategories.SetData(SkillsTreeFile.catList);
+        scCategories.reloadFromFile();
         scElements.SetData(SkillsTreeFile.elmsList);
 
         //обновление графа категорий + элементов текущей категории
-        scCategories.FillGrap();
+        scCategories.RefreshGrap();
     }
 
+
+    // SAVE TO FILE
+    // RELOAD FROM FILE
 
 
 
