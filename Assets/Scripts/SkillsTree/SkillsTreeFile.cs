@@ -303,6 +303,35 @@ public static class SkillsTreeFile
 
 
 
+    //****************************************************************
+    // удаление одной категории, возвращает кол-во удаленных категорий
+    public static bool deleteElement(int id)
+    {
+        int num = elmsList.RemoveAll(x => x.id == id);
+        return (num > 0);
+    }
+
+
+
+    //****************************************************************
+    //ренумерация элементов данной категории с шагом sort_step
+    public static void renumAllElements(int cat_id)
+    {
+        if (elmsList.Count > 0)
+        {
+            int sort = sort_step;
+            for (int i = 0; i < elmsList.Count; i++)
+            {
+                if (elmsList[i].parent_id != cat_id)
+                    continue;
+                elmsList[i].sort = sort;
+                sort += sort_step;
+            }
+        }
+    }
+
+
+
 
 
 

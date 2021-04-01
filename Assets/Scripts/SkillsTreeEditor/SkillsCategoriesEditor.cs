@@ -51,6 +51,14 @@ public class SkillsCategoriesEditor : MonoBehaviour
     }
 
     //***********************************************************************
+    //получить список категорий
+    public List<JsonSkillsTreeNode> getCatList()
+    {
+        return catList;
+    }
+
+
+    //***********************************************************************
     //обновление списка и графа
     public void refresh_all()
     {
@@ -157,7 +165,7 @@ public class SkillsCategoriesEditor : MonoBehaviour
         }
 
         //if (scElements==null) scElements = GetComponent<SkillsElementsEditor>();
-        scElements.UpdateListByCatID(curCatID);
+        scElements.setCategoryAndRefreshGraph(curCatID);
 
         //btn_AddEdit_Category();
     }
@@ -185,7 +193,7 @@ public class SkillsCategoriesEditor : MonoBehaviour
             popup_caption.text = "Редактирование категории [" + curCatID.ToString()+"]";
         }
 
-        //поле: родительская категория  //.Find("Dropdown_parent").gameObject
+        //поле: родительская категория  
         //заполнение дроп-списка в попапе, только корневыми категориями
         TMP_Dropdown popup_parent_dropdown = pnl_form.transform.Find("pnl_parent").GetComponentInChildren<TMP_Dropdown>();
         List<string> opts = new List<string>();
@@ -218,7 +226,7 @@ public class SkillsCategoriesEditor : MonoBehaviour
 
         //поле: сортировка
         TMP_InputField tmptxt = pnl_form.transform.Find("pnl_sort").GetComponentInChildren<TMP_InputField>();
-        tmptxt.text = (is_new != 1) ? curNode.sort.ToString() : "";
+        tmptxt.text = (is_new != 1) ? curNode.sort.ToString() : "10";
 
         //поле: название
         tmptxt = pnl_form.transform.Find("pnl_name").GetComponentInChildren<TMP_InputField>();
@@ -234,6 +242,12 @@ public class SkillsCategoriesEditor : MonoBehaviour
         //поле: полное описание
         tmptxt = pnl_form.transform.Find("pnl_full_desc").GetComponentInChildren<TMP_InputField>();
         tmptxt.text = (is_new != 1) ? curNode.full_desc : "";
+
+        //save
+        var btn = pnl_popup_btm.transform.Find("btn_save").GetComponent<Button>();
+        btn.onClick.RemoveAllListeners();
+        btn.onClick.AddListener(delegate { btn_Save_FormCategory(); });
+
     }
 
 
@@ -269,7 +283,7 @@ public class SkillsCategoriesEditor : MonoBehaviour
 
     //***********************************************************************
     //кнопка сохранить
-    public void btn_Save_FormData()
+    public void btn_Save_FormCategory()
     {
         // 1 получение данных с формы в node
         JsonSkillsTreeNode formNode = new JsonSkillsTreeNode();
@@ -347,26 +361,4 @@ public class SkillsCategoriesEditor : MonoBehaviour
 
 
 
-    //***********************************************************************
-    //закрытие попапа
-    public void btn_popup_close() {
-        pnl_popups_backfon.SetActive(false);
-    }
-
-
-
-    //***********************************************************************
-    //  TESTS
-    //***********************************************************************
-
-
-    public void Test1()
-    {
-        Debug.Log("test categories ok");
-    }
-
 }
-
-
-
-

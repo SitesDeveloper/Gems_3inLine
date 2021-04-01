@@ -11,6 +11,10 @@ public class SkillsTreeEditorController : MonoBehaviour
     //public GameObject goCategories; 
     //public GameObject goElements;
 
+    //фон попапов
+    public GameObject pnl_popups_backfon;
+
+
 
     SkillsCategoriesEditor scCategories;
     SkillsElementsEditor scElements;
@@ -41,11 +45,11 @@ public class SkillsTreeEditorController : MonoBehaviour
 
     public void ReloadFromFile()
     {
-        //загрузка из файла
+        //загрузка дерева из файла в статичный класс дерева (через него будет доступ к файлу)
         SkillsTreeFile.Load();
         //заполнение списков в классах-графах категорий и элементов
+        scElements.reloadFromFile();
         scCategories.reloadFromFile();
-        scElements.SetData(SkillsTreeFile.elmsList);
 
         //обновление графа категорий + элементов текущей категории
         scCategories.RefreshGrap();
@@ -57,6 +61,12 @@ public class SkillsTreeEditorController : MonoBehaviour
 
 
 
+    //***********************************************************************
+    //закрытие попапа
+    public void btn_popup_close()
+    {
+        pnl_popups_backfon.SetActive(false);
+    }
 
 
 
