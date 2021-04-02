@@ -49,7 +49,7 @@ public class SkillsElementsEditor : MonoBehaviour
     {
         if (skillsCategories == null)
             skillsCategories = GetComponent<SkillsCategoriesEditor>();
-        ClearGraph();
+        //ClearGraph();
     }
 
     // Update is called once per frame
@@ -84,6 +84,7 @@ public class SkillsElementsEditor : MonoBehaviour
         curCatID = cat_id;
         if (elmsList.Count > 0)
         {
+
             elmsCurCat.Clear();
             foreach (JsonSkillsTreeNode node in elmsList)
             {
@@ -138,6 +139,8 @@ public class SkillsElementsEditor : MonoBehaviour
         ClearGraph();
         if (elmsCurCat.Count > 0)
         {
+
+            //Debug.Log("elms_curcat_count=" + elmsCurCat.Count);
             foreach (JsonSkillsTreeNode node in elmsCurCat)
             {
                 string prefab_name = GameConstants.PREFAB_EDITOR_ELEMENT;
@@ -193,7 +196,6 @@ public class SkillsElementsEditor : MonoBehaviour
                     cb.normalColor = selectedColor;
                     btn.colors = cb;
                     btn.tag = "btn_selected";
-                    //JsonSkillsTreeNode nodeElm = getElmNodeByID(ExtractIDfromName(name));
                     JsonSkillsTreeNode nodeElm = getElmNodeByID( id );
                     tmptxt_elm_preview.text = nodeElm.full_desc;
 
@@ -391,7 +393,8 @@ public class SkillsElementsEditor : MonoBehaviour
                         "Удален элемент #" + elm_id
                     );
                 },
-                "Действительно хотите удалить выбранный элемент?"
+                "Действительно хотите удалить выбранный элемент?",
+                true
             );
         }
     }

@@ -23,7 +23,7 @@ public class SkillsTreeEditorController : MonoBehaviour
 
     private int n = 0;
 
-    
+    public bool is_inited = false;
 
 
     // Start is called before the first frame update
@@ -32,14 +32,17 @@ public class SkillsTreeEditorController : MonoBehaviour
         scCategories =  GetComponent<SkillsCategoriesEditor>();
         scElements = GetComponent<SkillsElementsEditor>();
 
-        //test_save_json_skill_tre();
-        ReloadFromFile();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (!is_inited)
+        {
+            //test_save_json_skill_tre();
+            ReloadFromFile();
+            is_inited = true;
+        }
     }
 
 
@@ -69,6 +72,34 @@ public class SkillsTreeEditorController : MonoBehaviour
     }
 
 
+    //***********************************************************************
+    //запись в файл
+    public void btn_SaveToFile()
+    {
+
+        MessageBox.ShowMessage(
+            () => {
+                int num = SkillsTreeFile.Save();
+                MessageBox.ShowMessage(
+                    () => {
+                    },
+                    "Запись в файл произведена. Сохранено "+num+" нодов."
+                );
+            },
+            "Хотите произвести запись всех изменений в файл?",
+            true
+        );
+
+    }
+
+
+
+    //***********************************************************************
+    //загрузка из файла
+    public void btn_LoadFromFile()
+    {
+        
+    }
 
 
 
@@ -78,43 +109,6 @@ public class SkillsTreeEditorController : MonoBehaviour
     //***********************************************************************
     //  TESTS
     //***********************************************************************
-
-    /*
-        void TestAddElement()
-        {
-            //создание объекта из префаба
-            GameObject obj = (GameObject)Instantiate(Resources.Load("Prefab/SkillsTreeEditor/element"));
-            obj.transform.SetParent(pnlTest.transform);
-            string name = "element_" + n.ToString();
-            n++;
-            obj.name = name;
-
-            //добавление функций на кнопку
-            Component [] btns;
-            btns = obj.GetComponentsInChildren(typeof(Button));
-            Debug.Log(btns);
-
-            if (btns != null)
-            {
-                foreach (Button b in btns)
-                {
-                    b.onClick.AddListener(delegate { test_btn_click(name + " : " + b.name);  });
-                }
-            }
-            else
-            {
-                Debug.Log("btns not found");
-            }
-        }
-
-
-        void test_btn_click( string val )
-        {
-            Debug.Log("clicked " + val);
-        }
-
-    */
-
 
     void test_save_json_skill_tre()
     {
@@ -134,7 +128,7 @@ public class SkillsTreeEditorController : MonoBehaviour
         skills[8] = SkillsTreeFile.create_one_node(9, 7, 0, "Элемент 2.1.1", "кор. описание 2.1.1", "полное описание 2.1.1");
         skills[9] = SkillsTreeFile.create_one_node(10, 7, 0, "Элемент 2.1.2", "кор. описание 2.1.2", "полное описание 2.1.2");
 
-        SkillsTreeFile.Save(skills);
+        SkillsTreeFile.SaveOtherNodes(skills);
 
     }
 

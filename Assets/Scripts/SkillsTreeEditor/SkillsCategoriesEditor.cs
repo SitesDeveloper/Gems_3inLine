@@ -140,6 +140,7 @@ public class SkillsCategoriesEditor : MonoBehaviour
     //***********************************************************************
     public void Set_Category_Active(int id)
     {
+        //Debug.Log("cat_id=" + id);
         curCatID = id;
         string name = CreateNameByID(id);
 
@@ -268,7 +269,8 @@ public class SkillsCategoriesEditor : MonoBehaviour
             },
             "Действительно хотите удалить выбранную категорию? " +
             "В этом случае все ее ПОДКАТЕГОРИИ и их ЭЛЕМЕНТЫ будут удалены, " +
-            "также будут удалены элементы текущей категории."
+            "также будут удалены элементы текущей категории.",
+            true
         );
 
     }

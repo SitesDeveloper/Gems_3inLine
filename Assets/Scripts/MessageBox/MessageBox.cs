@@ -32,7 +32,8 @@ public class MessageBox : MonoBehaviour {
         Button yes = btn_panel.Find("mb_btn_yes").GetComponent<Button>();
         Button no = btn_panel.Find("mb_btn_no").GetComponent<Button>();
 
-        no.interactable = is_btn_no;
+        no.gameObject.SetActive(is_btn_no);
+        //no.interactable = is_btn_no;
         
 
         yes.onClick.AddListener(() =>

@@ -176,10 +176,22 @@ public static class SkillsTreeFile
     }
 
 
+    //****************************************************************
+    //запись в файл текущих данных, возвращает кол-во записанных nodes
+    public static int Save()
+    {
+        JsonSkillsTreeNode[] jsonSkills = ListsToArray();
+        string jsonString = JsonHelper.ToJson(jsonSkills, true);
+        string fname = PathUtil.GetDocumentFilePath(GameConstants.PATH_TO_SKILLS_TREE);
+        File.WriteAllText(fname, jsonString);
+        return jsonSkills.Length;
+    }
+
+
 
     //****************************************************************
-    //запись в файл
-    public static void Save( JsonSkillsTreeNode[] jsonSkills ) {
+    //запись в файл произвольных нод
+    public static void SaveOtherNodes( JsonSkillsTreeNode[] jsonSkills ) {
         string jsonString = JsonHelper.ToJson(jsonSkills, true);
         string fname = PathUtil.GetDocumentFilePath(GameConstants.PATH_TO_SKILLS_TREE);
         File.WriteAllText(fname, jsonString );
