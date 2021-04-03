@@ -261,11 +261,7 @@ public class SkillsCategoriesEditor : MonoBehaviour
                 int num = SkillsTreeFile.deleteCategoryAndSubnodes(curCatID);
                 //обновление списка и графа
                 refresh_all();
-                MessageBox.ShowMessage(
-                    () => {
-                    },
-                    "Нодов удалено: " + num
-                );
+                MessageBox.ShowMessage(() => {},"Нодов удалено: " + num);
             },
             "Действительно хотите удалить выбранную категорию? " +
             "В этом случае все ее ПОДКАТЕГОРИИ и их ЭЛЕМЕНТЫ будут удалены, " +
@@ -338,10 +334,7 @@ public class SkillsCategoriesEditor : MonoBehaviour
         if (Errors.Count > 0)
         {
             //найдены ошибки - показ сообщения об этом
-            MessageBox.ShowMessage(
-                () => { Debug.Log("message_box closed");}, 
-                string.Join("\n", Errors.ToArray() ) 
-            );
+            MessageBox.ShowMessage( () => { }, string.Join("\n", Errors.ToArray() ) );
 
         }
         else

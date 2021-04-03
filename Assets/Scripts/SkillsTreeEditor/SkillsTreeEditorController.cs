@@ -93,6 +93,35 @@ public class SkillsTreeEditorController : MonoBehaviour
         );
     }
 
+    //***********************************************************************
+    //запись в файл как ...
+    public void btn_SaveAs()
+    {
+        var path = EditorUtility.SaveFilePanel(
+                    "Сохранить древо в файл",
+                    "",
+                    "SkillsTree_new.json",
+                    "json");
+
+        if (path.Length != 0)
+        {
+            if (Path.GetExtension(path) != ".json")
+            {
+                MessageBox.ShowMessage(() => { }, "Файл должен быть json-формата.");
+            } else {
+                int num = SkillsTreeFile.Save(path);
+                MessageBox.ShowMessage(
+                    () => {},
+                    "Запись в файл ("+ path+") произведена. Сохранено " + num + " нодов."
+                );
+            }
+        }
+
+    }
+
+
+
+
 
     //***********************************************************************
     //чтение из файла
@@ -102,11 +131,7 @@ public class SkillsTreeEditorController : MonoBehaviour
             () => {
                 ReloadFromFile();
                 JsonSkillsTreeNode[] new_nodes = SkillsTreeFile.ListsToArray();
-                MessageBox.ShowMessage(
-                    () => {
-                    },
-                    "Файл загружен. Нодов: " + new_nodes.Length
-                );
+                MessageBox.ShowMessage(() => {},"Файл загружен. Нодов: " + new_nodes.Length);
             },
             "Хотите загрузить данные из файла? Все изменения будут отменены",
             true
@@ -123,7 +148,7 @@ public class SkillsTreeEditorController : MonoBehaviour
             () => {
 
                 string file_path = EditorUtility.OpenFilePanel("Выберите файл древа(json)", "", "json");
-                Debug.Log("file=" + file_path + ", ext="+ Path.GetExtension(file_path));
+                //Debug.Log("file=" + file_path + ", ext="+ Path.GetExtension(file_path));
                 if (file_path.Length != 0)
                 {
                     if (Path.GetExtension(file_path) != ".json")

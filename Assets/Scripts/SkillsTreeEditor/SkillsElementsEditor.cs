@@ -348,11 +348,7 @@ public class SkillsElementsEditor : MonoBehaviour
         if (Errors.Count > 0)
         {
             //найдены ошибки - показ сообщения об этом
-            MessageBox.ShowMessage(
-                () => { Debug.Log("message_box closed"); },
-                string.Join("\n", Errors.ToArray())
-            );
-
+            MessageBox.ShowMessage( () => {  }, string.Join("\n", Errors.ToArray()) );
         }
         else
         {
