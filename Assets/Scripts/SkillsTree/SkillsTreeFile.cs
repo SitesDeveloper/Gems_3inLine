@@ -15,9 +15,9 @@ public static class SkillsTreeFile
 
     //****************************************************************
     //загрузка из файла и заполнение списков
-    public static JsonSkillsTreeNode[] Load() {
-
-        string fname = PathUtil.GetDocumentFilePath(GameConstants.PATH_TO_SKILLS_TREE);
+    public static JsonSkillsTreeNode[] Load(string fname="") {
+        if (fname.Length<=0)
+            fname = PathUtil.GetDocumentFilePath(GameConstants.PATH_TO_SKILLS_TREE);
         if (!File.Exists(fname)) { 
             throw new Exception("Not found skills_tree file");
         }
@@ -30,6 +30,9 @@ public static class SkillsTreeFile
         //Debug.Log(skillsArray);
         return skillsArray;
     }
+
+
+
 
 
     //****************************************************************

@@ -1,0 +1,26 @@
+{
+    "Items": [
+        {
+            "id": 1,
+            "parent_id": 0,
+            "is_category": 1,
+            "sort": 10,
+            "image": "",
+            "name": "Категория 1",
+            "short_desc": "кор. описание к1",
+            "full_desc": "полное описание к1",
+            "requirements": ""
+        },
+        {
+            "id": 2,
+            "parent_id": 1,
+            "is_category": 0,
+            "sort": 20,
+            "image": "",
+            "name": "Элемент 1.1",
+            "short_desc": "кор. описание 1.1",
+            "full_desc": "описание 1.1",
+            "requirements": ""
+        }
+    ]
+}

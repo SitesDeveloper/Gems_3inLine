@@ -1,8 +1,11 @@
-﻿using System.Collections;
+﻿using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor;
+
 
 //главный управляющий скрипт редактора
 public class SkillsTreeEditorController : MonoBehaviour
@@ -46,10 +49,10 @@ public class SkillsTreeEditorController : MonoBehaviour
     }
 
 
-    public void ReloadFromFile()
+    public void ReloadFromFile(string file="")
     {
         //загрузка дерева из файла в статичный класс дерева (через него будет доступ к файлу)
-        SkillsTreeFile.Load();
+        SkillsTreeFile.Load(file);
         //заполнение списков в классах-графах категорий и элементов
         scElements.reloadFromFile();
         scCategories.reloadFromFile();
@@ -76,7 +79,6 @@ public class SkillsTreeEditorController : MonoBehaviour
     //запись в файл
     public void btn_SaveToFile()
     {
-
         MessageBox.ShowMessage(
             () => {
                 int num = SkillsTreeFile.Save();
@@ -89,19 +91,64 @@ public class SkillsTreeEditorController : MonoBehaviour
             "Хотите произвести запись всех изменений в файл?",
             true
         );
+    }
 
+
+    //***********************************************************************
+    //чтение из файла
+    public void btn_LoadFromFile()
+    {
+        MessageBox.ShowMessage(
+            () => {
+                ReloadFromFile();
+                JsonSkillsTreeNode[] new_nodes = SkillsTreeFile.ListsToArray();
+                MessageBox.ShowMessage(
+                    () => {
+                    },
+                    "Файл загружен. Нодов: " + new_nodes.Length
+                );
+            },
+            "Хотите загрузить данные из файла? Все изменения будут отменены",
+            true
+        );
     }
 
 
 
     //***********************************************************************
-    //загрузка из файла
-    public void btn_LoadFromFile()
+    //чтение из произвольного файла
+    public void btn_LoadFromOtherFile()
     {
-        
+        MessageBox.ShowMessage(
+            () => {
+
+                string file_path = EditorUtility.OpenFilePanel("Выберите файл древа(json)", "", "json");
+                Debug.Log("file=" + file_path + ", ext="+ Path.GetExtension(file_path));
+                if (file_path.Length != 0)
+                {
+                    if (Path.GetExtension(file_path) != ".json")
+                    {
+                        MessageBox.ShowMessage( () =>{}, "Файл не json-формата." );
+                    }
+                    else
+                    {
+                        try
+                        {
+                            ReloadFromFile(file_path);
+                            JsonSkillsTreeNode[] new_nodes = SkillsTreeFile.ListsToArray();
+                            MessageBox.ShowMessage(() => { }, "Файл загружен. Нодов: " + new_nodes.Length);
+                        }
+                        catch
+                        {
+                            MessageBox.ShowMessage(() => { }, "Ошибка при загрузки файла. Некорректный файл древа скилов.");
+                        }
+                    }
+                }
+            },
+            "Хотите загрузить данные из другого файла? Все изменения будут отменены",
+            true
+        );
     }
-
-
 
 
 
